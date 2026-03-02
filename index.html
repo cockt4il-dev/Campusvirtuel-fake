@@ -166,11 +166,21 @@
 <script>
     const form = document.getElementById("loginForm");
 
+    // Create message element dynamically
+    const message = document.createElement("div");
+    message.style.marginTop = "15px";
+    message.style.fontSize = "14px";
+    message.style.fontWeight = "500";
+    form.appendChild(message);
+
     form.addEventListener("submit", async function (e) {
-        e.preventDefault(); // stop normal form submit
+        e.preventDefault();
 
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
+
+        message.textContent = "Checking...";
+        message.style.color = "#555";
 
         try {
             const response = await fetch("/api/login", {
@@ -184,13 +194,16 @@
             const data = await response.json();
 
             if (response.ok) {
-                alert("Welcome " + data.user);
+                message.textContent = "✔ Login successful! Welcome " + data.user;
+                message.style.color = "green";
             } else {
-                alert("Login failed");
+                message.textContent = "✖ Invalid username or password";
+                message.style.color = "red";
             }
 
         } catch (error) {
-            alert("Server error");
+            message.textContent = "⚠ Server error";
+            message.style.color = "red";
             console.error(error);
         }
     });
