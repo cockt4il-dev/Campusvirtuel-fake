@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USTHB Login Interface</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #E1E4E8; /* Lighter grey background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Login Card */
+        .login-card {
+            background-color: #ffffff;
+            padding: 50px;
+            border-radius: 10px; /* More subtle rounding */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Logo Placeholder */
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .logo img {
+            max-width: 120px;
+            height: auto;
+        }
+
+        /* Form container is left-aligned by default */
+        #loginForm {
+            text-align: left;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+            
+            
+        }
+
+
+
+        input {
+            width: 100%;
+            padding: 14px 15px; /* Slightly taller padding */
+            font-size: 16px;
+            color: #555;
+            background-color: #fff;
+            
+            /* Inactive state: very thin, subtle grey border */
+            border: 1px solid #999; 
+            border-radius: 12px; /* Increased rounding to match image */
+            
+            outline: none;
+            box-sizing: border-box;
+            transition: border 0.1s ease-in-out;
+        }
+
+        /* The Blue Focus State (as seen in your 'Username' box) */
+        input:focus {
+            border: 4px solid #5a96d1; /* Thick, semi-muted blue border */
+            
+        }
+
+        /* Login Button - Left Aligned & Sized */
+        .btn-login {
+            display: block; /* Allows margin auto not to center it */
+            width: auto; /* Fits content */
+            min-width: 80px;
+            background-color: #007bff; /* Boostrap-style Blue */
+            color: white;
+            padding: 14px 17px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18.75px;
+            cursor: pointer;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        /* Link Styles */
+        .forgot-password {
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer Utilities */
+        .divider {
+            height: 1px;
+            background-color: #dee2e6;
+            margin: 25px 0;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: flex-start; /* Aligns items to the left */
+            align-items: center;
+            gap: 20px; /* Space between language and cookies */
+        }
+
+        /* Language Link - Blue and slightly larger */
+        .lang-select {
+            color: #007bff;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        /* Cookies notice - Greyish button */
+        .cookie-notice {
+            background-color: #ced4da;
+            padding: 6px 12px;
+            border-radius: 4px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="logo">
+            <img src="usthb.png" alt="USTHB Logo">
+        </div>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="username" required>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="btn-login">Log in</button>
+            
+            <a href="#" class="forgot-password">Lost password?</a>
+        </form>
+
+        <div class="divider"></div>
+
+        <div class="footer-links">
+            <a href="#" class="lang-select">English (en) ▾</a>
+            <a href="#" class="cookie-notice">Cookies notice</a>
+        </div>
+    </div>
+
+</body>
+
+
+<script>
+    const loginForm = document.getElementById('loginForm');
+    
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert('Success: Welcome ' + result.user);
+            } else {
+                alert('Failed: ' + (result.message || result.error));
+            }
+        } catch (err) {
+            console.error('Network error:', err);
+        }
+    });
+</script>
+
+
+</html>
