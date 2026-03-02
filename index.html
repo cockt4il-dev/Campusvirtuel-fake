@@ -163,7 +163,38 @@
 </body>
 
 
+<script>
+    const form = document.getElementById("loginForm");
 
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault(); // stop normal form submit
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        try {
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Welcome " + data.user);
+            } else {
+                alert("Login failed");
+            }
+
+        } catch (error) {
+            alert("Server error");
+            console.error(error);
+        }
+    });
+</script>
 
 
 </html>
