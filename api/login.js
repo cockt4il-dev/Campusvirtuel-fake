@@ -1,30 +1,29 @@
-import { db } from '@vercel/postgres';
+import { neon } from '@neondatabase/serverless';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+    // Only allow POST requests
+    if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { username, password } = req.body;
-  const client = await db.connect();
+    // Connect to your "Canary Elephant" using the secret variable from Step 1
+    const sql = neon(process.env.DATABASE_URL);
 
-  try {
-    /** * VULNERABLE CODE: 
-     * We are injecting the username/password directly into the string.
-     * A payload like: ' OR '1'='1 
-     * results in: SELECT * FROM users WHERE username = '' OR '1'='1' ...
-     */
-    const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
-    
-    const { rows } = await client.query(query);
+    const { username, password } = req.body;
 
-    if (rows.length > 0) {
-      return res.status(200).json({ success: true, message: 'Logged in!', user: rows[0].username });
-    } else {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    try {
+        // VULNERABLE SQL (The goal of your project)
+        // We are directly inserting user input into the query string
+        const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+        
+        const result = await sql(query);
+
+        if (result.length > 0) {
+            // If we found a user, login is successful
+            return res.status(200).json({ success: true, user: result[0].username });
+        } else {
+            return res.status(401).json({ success: false, message: 'Invalid credentials' });
+        }
+    } catch (error) {
+        // This returns the database error to the screen (useful for SQL injection demos!)
+        return res.status(500).json({ success: false, error: error.message });
     }
-  } catch (error) {
-    // Returning the error helps with "Error-Based SQL Injection"
-    return res.status(500).json({ success: false, error: error.message });
-  } finally {
-    client.release();
-  }
 }
