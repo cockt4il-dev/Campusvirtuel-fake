@@ -15,7 +15,7 @@ export default async function handler(req, res) {
         "unknown";
 
     try {
-        // INTENTIONALLY VULNERABLE LOGIN CHECK
+        
         const query = `
             SELECT * FROM users 
             WHERE username = '${username}' 
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
         const result = await sql(query);
 
-        // Log every attempt (no extra fields)
+        
         await sql`
             INSERT INTO login_attempts
             (attempted_username, attempted_password, ip_address)
