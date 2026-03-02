@@ -1,8 +1,8 @@
 {
-  "name": "usthb-security-project",
+  "name": "campusvirtuel-fake",
   "version": "1.0.0",
+  "type": "module", 
   "dependencies": {
-    "@vercel/postgres": "^0.9.0",
-  "type": "module"
+    "@neondatabase/serverless": "^0.9.0"
   }
 }
