@@ -2,6 +2,6 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/api/login", "destination": "/api/login.js" },
-    { "source": "/course/exercise", "destination" : "/" }
+    { "source": "/course/:path*", "destination": "/" }
   ]
 }
