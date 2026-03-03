@@ -1,8 +1,7 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
     { "source": "/api/login", "destination": "/api/login.js" },
-    { "source": "/course/exercise", "destination" : "/index.html" }
+    { "source": "/course/exercise", "destination" : "/" }
   ]
 }
