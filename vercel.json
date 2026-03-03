@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/", "destination": "/campusvirtuel.html" },
-    { "source": "/api/login", "destination": "/api/login.js" }
+    { "source": "/api/login", "destination": "/api/login.js" },
+    { "source": "/course/exercise", "destination" : "/campusvirtuel.html" }
   ]
 }
