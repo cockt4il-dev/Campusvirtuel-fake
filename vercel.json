@@ -1,8 +1,8 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/campusvirtuel.html" },
+    { "source": "/", "destination": "/index.html" },
     { "source": "/api/login", "destination": "/api/login.js" },
-    { "source": "/course/exercise", "destination" : "/campusvirtuel.html" }
+    { "source": "/course/exercise", "destination" : "/index.html" }
   ]
 }
